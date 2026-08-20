@@ -1,23 +1,37 @@
+import { Link } from "react-router-dom";
+
 function Navbar() {
   return (
     <nav className="border-b border-slate-200 bg-white">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
-        <h1 className="text-2xl font-bold text-slate-900">
+        <Link
+          to="/"
+          className="text-2xl font-bold text-slate-900"
+        >
           Vutur Rajyo
-        </h1>
+        </Link>
 
         <div className="flex gap-6 text-sm text-slate-600">
-          <a href="#" className="hover:text-slate-900">
+          <Link
+            to="/"
+            className="hover:text-slate-900"
+          >
             Home
-          </a>
+          </Link>
 
-          <a href="#" className="hover:text-slate-900">
+          <Link
+            to="/"
+            className="hover:text-slate-900"
+          >
             Blog
-          </a>
+          </Link>
 
-          <a href="#" className="hover:text-slate-900">
+          <Link
+            to="/about"
+            className="hover:text-slate-900"
+          >
             About
-          </a>
+          </Link>
         </div>
       </div>
     </nav>
