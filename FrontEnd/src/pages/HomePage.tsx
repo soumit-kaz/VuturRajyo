@@ -1,7 +1,43 @@
 import Hero from "../components/Hero";
 import PostCard from "../components/PostCard";
+import { getPosts, type Post } from "../services/api";
+
+import { useEffect, useState } from "react";
 
 function HomePage() {
+
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(
+    () =>
+    {
+      async function loadPosts()
+      {
+        try
+        {
+          const loadedPosts = await getPosts();
+          setPosts(loadedPosts);
+        }
+        catch
+        {
+  
+          setError("Failed to load posts.");
+
+        }
+        finally
+        {
+
+          setLoading(false);
+
+        }
+      }
+      loadPosts();
+    },
+    []
+  );
+
   return (
     <main>
       <Hero />
@@ -17,34 +53,37 @@ function HomePage() {
           </p>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          <PostCard
-            category="Development"
-            title="Getting started with React"
-            description="Learn the fundamental concepts behind modern React applications."
-            author="Soumit"
-            updatedAt="2026-08-18"
-            slug="getting-started-with-react"
-          />
-
-          <PostCard
-            category="Technology"
-            title="Building better software"
-            description="Practical principles for creating software that is easier to maintain."
-            author="Upama"
-            updatedAt="2026-08-11"
-            slug="building-better-software"
-          />
-
-          <PostCard
-            category="Career"
-            title="Growing as a developer"
-            description="A practical approach to continuously improving your engineering skills."
-            author="Soumit"
-            updatedAt="2026-07-29"
-            slug="growing-as-a-developer"
-          />
-        </div>
+        {loading && 
+        (
+          <p className="text-slate-600">
+            Loading articles...
+          </p>
+        )
+        }
+        {error && 
+        (
+          <p className="text-slate-600">
+            {error}
+          </p>
+        )
+        }
+        {!loading && !error && posts.length > 0 && 
+        (
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {posts.map((post) => (
+              <PostCard
+                key={post.id}
+                title={post.title}
+                description={post.description}
+                category={post.category}
+                slug={post.slug}
+                author={post.author}
+                updatedAt={post.updatedAt}
+              />
+            ))}
+          </div>
+        )
+        }
       </section>
     </main>
   );
