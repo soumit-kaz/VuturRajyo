@@ -35,8 +35,12 @@ export async function getPosts(): Promise<Post[]>
     return response.json();
 }
 
-export async function getPostBySlug(slug: string): Promise<Post>
+export async function getPostBySlug(slug?: string): Promise<Post>
 {
+    if (!slug)
+    {
+        throw new Error("Slug is required to fetch a post.");
+    }
     const response = await fetch(`${API_BASE_URL}/api/posts/${encodeURIComponent(slug)}`);
 
     if (response.status === 404)
