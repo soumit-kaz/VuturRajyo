@@ -1,5 +1,12 @@
+using BackEnd.Services;
+using BackEnd.Settings;
+
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.Configure<MongoDbSettings>(
+    builder.Configuration.GetSection("MongoDb")
+);
+builder.Services.AddSingleton<PostService>();
 builder.Services.AddCors(
     options =>
     {
