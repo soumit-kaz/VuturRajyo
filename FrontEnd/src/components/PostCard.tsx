@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { toReadableDate as toHumanReadableMonthDateYear } from '../helpers/DateTimeHelper';
 
 type PostCardProps =
@@ -7,6 +8,7 @@ type PostCardProps =
     category: string;
     author: string;
     updatedAt: string;
+    slug: string;
 };
 
 function PostCard(postCardProps: PostCardProps)
@@ -16,7 +18,8 @@ function PostCard(postCardProps: PostCardProps)
         description,
         category,
         author,
-        updatedAt
+        updatedAt,
+        slug
     } = postCardProps;
 
     const formattedDate = toHumanReadableMonthDateYear(updatedAt);
@@ -40,9 +43,11 @@ function PostCard(postCardProps: PostCardProps)
                 <time dateTime={updatedAt}>{formattedDate}</time>
             </p>
 
-            <button className="mt-5 text-sm font-semibold text-slate-900">
+            <Link 
+            to={`/posts/${slug}`}
+            className="mt-5 text-sm font-semibold text-slate-900">
                 Read article →
-            </button>
+            </Link>
         </article>
     );
 }
